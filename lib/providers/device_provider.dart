@@ -41,6 +41,9 @@ class DeviceProvider with ChangeNotifier {
   Timer? _windowTimer;
   Timer? _windowMonitorTimer;
   bool _isAcOn = true;
+  String? _error; // Store error message
+
+  String? get error => _error; // Expose error to the UI
 
   DeviceProvider(this._ewelinkService) {
     _monitorWindowStatus();
@@ -104,12 +107,20 @@ class DeviceProvider with ChangeNotifier {
   // Toggle on/off for AC or Main Light
   Future<void> toggleDeviceStatus(Device device, bool turnOn) async {
     if (device.type == DeviceType.airCondition) {
-      bool success = await _ewelinkService.toggleAC(turnOn);
-      if (success) {
-        _isAcOn = turnOn;
-        device.modes?['ON/OFF'] = turnOn;
+      try{
+        bool success = await _ewelinkService.toggleAC(turnOn);
+        if (success) {
+          _isAcOn = turnOn;
+          device.modes?['ON/OFF'] = turnOn;
+          notifyListeners();
+        }
+      } catch (error) {
+        _error = error.toString();
+        print(_error); // Log error to console
         notifyListeners();
+
       }
+
     }
   }
 
@@ -136,6 +147,11 @@ class DeviceProvider with ChangeNotifier {
   void _cancelWindowTimer() {
     _windowTimer?.cancel();
     _windowTimer = null;
+  }
+
+  void clearError() {
+    _error = null;
+    notifyListeners();
   }
 
   @override

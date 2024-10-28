@@ -32,6 +32,7 @@ class ArkEnergyApp extends StatelessWidget {
     return Consumer<AuthProvider>(
       builder: (context, authProvider, child) {
         return MaterialApp(
+          debugShowCheckedModeBanner: false,
           title: 'Ark Energy',
           theme: ThemeData(
             primarySwatch: Colors.blue,
