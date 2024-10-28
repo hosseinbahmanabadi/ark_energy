@@ -18,7 +18,6 @@ class AuthService {
         return "TOKEN";
         // return responseBody['token'];
       } else {
-        print(username + "--" + password);
         // print("Login failed: ${response.body}");
         print("Login failed:");
         return null;
