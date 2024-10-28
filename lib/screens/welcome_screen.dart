@@ -44,6 +44,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
               if (authProvider.status == AuthStatus.authenticated) {
                 WidgetsBinding.instance.addPostFrameCallback((_) {
                   Navigator.pushReplacementNamed(context, '/home');
+                  authProvider.clearLoginAttempt(); // Reset login attempt on successful login
                 });
               }
 
@@ -104,13 +105,13 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                             height: 20,
                             width: 20,
                             child: CircularProgressIndicator(color: Colors.white, strokeWidth: 1,))
-                            :const Text(
+                            : const Text(
                           'Login',
                           style: TextStyle(color: Colors.white),
                         ),
                       ),
                     ),
-                    if (authProvider.status == AuthStatus.unauthenticated) ...[
+                    if (authProvider.status == AuthStatus.unauthenticated && authProvider.loginAttempted) ...[
                       const SizedBox(height: 16),
                       const Text(
                         'Login failed. Please try again.',

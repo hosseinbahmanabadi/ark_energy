@@ -13,7 +13,7 @@ class AuthService {
       //   body: jsonEncode({'username': username, 'password': password}),
       // );
 
-      if (username == "Nadim.khoury@arkenergyae" && password == "nadim@nadim") {
+      if (username.toLowerCase() == "nadim.khoury@arkenergyae" && password == "nadim@nadim") {
         // final responseBody = jsonDecode(response.body);
         return "TOKEN";
         // return responseBody['token'];
